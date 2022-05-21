@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 from bs4 import BeautifulSoup
-# import pandas as pd
 
 app = FastAPI()
 
@@ -35,10 +34,6 @@ def GetYahoo():
     html = requests.get(load_url)
     soup = BeautifulSoup(html.content, "html.parser")
 
-    # columns = ["Rank", "Article_Name", "Url"]
-    # df = pd.DataFrame(columns=columns)
-    # print(df)
-
     count = 0
 
     articlesDict = {}
@@ -58,8 +53,6 @@ def GetYahoo():
         # url = element.get("href")
         # print(url)
 
-        # row = pd.Series([rank, title, url], columns)
-        # df = df.append(row, columns)
         count += 1
 
     return articlesDict
