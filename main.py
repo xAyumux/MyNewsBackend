@@ -46,13 +46,11 @@ def GetYahoo():
         else:
             rank = element.text[0:2]
             title = element.text[2:]
-        # print(rank)
-        # print(title)
 
         url = element.get("href")
-        # print(url)
-        articleDict = {title: url}
-        articlesDict[rank] = articleDict
+
+        articleDict = {"rank": rank, "title": title, "url": url}
+        articlesDict[count+1] = articleDict
 
         count += 1
 
