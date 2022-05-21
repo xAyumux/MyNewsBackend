@@ -48,10 +48,11 @@ def GetYahoo():
             title = element.text[2:]
         # print(rank)
         # print(title)
-        articlesDict[rank] = title
 
-        # url = element.get("href")
+        url = element.get("href")
         # print(url)
+        articleDict = {title: url}
+        articlesDict[rank] = articleDict
 
         count += 1
 
