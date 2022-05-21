@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 from bs4 import BeautifulSoup
+import re
 
 app = FastAPI()
 
@@ -34,7 +35,7 @@ def GetYahoo():
     html = requests.get(load_url)
     soup = BeautifulSoup(html.content, "html.parser")
 
-    count = 0
+    count = 1
 
     articlesDict = {}
 
@@ -50,7 +51,32 @@ def GetYahoo():
         url = element.get("href")
 
         articleDict = {"rank": rank, "title": title, "url": url}
-        articlesDict[count+1] = articleDict
+        articlesDict[count] = articleDict
+
+        count += 1
+
+    return articlesDict
+
+
+@app.get("/articles/gizmodo")
+def GetGizmodo():
+    url = "https://www.gizmodo.jp/"
+    res = requests.get(url)
+    soup = BeautifulSoup(res.text, "html.parser")
+
+    count = 1
+
+    articlesDict = {}
+
+    elems = soup.find_all(href=re.compile("https://www.gizmodo.jp/2022/05"))
+    for elem in elems:
+        print("title : "+elem.contents[0].text)
+        print("url : "+elem.attrs['href'])
+        title = elem.contents[0].text
+        url = elem.attrs['href']
+
+        articleDict = {"title": title, "url": url}
+        articlesDict[count] = articleDict
 
         count += 1
 
