@@ -1,8 +1,10 @@
+from typing import List, Optional
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 from bs4 import BeautifulSoup
 import re
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -19,14 +21,13 @@ app.add_middleware(
 )
 
 
+class Keywords(BaseModel):
+    word: List
+
+
 @app.get("/hello")
 def Hello():
     return {"Hello": "World!"}
-
-
-# @app.get("/articles/{site_name}")
-# def GetArticle():
-#     pass
 
 
 @app.get("/articles/yahoonews")
@@ -81,3 +82,8 @@ def GetGizmodo():
         count += 1
 
     return articlesDict
+
+
+@app.post("/articles/keywords")
+def SearchKeywords():
+    return {"title": "title"}
