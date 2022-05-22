@@ -32,8 +32,14 @@ def hello():
 
 
 @app.get("/articles/yahoonews")
-def get_yahoo():
-    articlesDict = scraping.yahoo()
+def get_yahooNews():
+    articlesDict = scraping.yahooNews()
+    return articlesDict
+
+
+@app.get("/articles/yahoonewsranking")
+def get_yahooRanking():
+    articlesDict = scraping.yahooRanking()
     return articlesDict
 
 
