@@ -92,6 +92,7 @@ def search_keywords(keywords: Keywords):
     soup = BeautifulSoup(html.content, "html.parser")
 
     count = 1
+    articleNumber = 1
 
     articlesDict = {}
 
@@ -109,7 +110,8 @@ def search_keywords(keywords: Keywords):
         for keyword in keywords.keywords:
             if keyword in title:
                 articleDict = {"rank": rank, "title": title, "url": url}
-                articlesDict[count] = articleDict
+                articlesDict[articleNumber] = articleDict
+                articleNumber += 1
 
         count += 1
 
@@ -128,7 +130,8 @@ def search_keywords(keywords: Keywords):
         for keyword in keywords.keywords:
             if keyword in title:
                 articleDict = {"title": title, "url": url}
-                articlesDict[count] = articleDict
+                articlesDict[articleNumber] = articleDict
+                articleNumber += 1
 
         count += 1
 
