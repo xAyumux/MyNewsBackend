@@ -26,12 +26,12 @@ class Keywords(BaseModel):
 
 
 @app.get("/hello")
-def Hello():
+def hello():
     return {"Hello": "World!"}
 
 
 @app.get("/articles/yahoonews")
-def GetYahoo():
+def get_yahoo():
     load_url = "https://news.yahoo.co.jp/ranking/access/news"
     html = requests.get(load_url)
     soup = BeautifulSoup(html.content, "html.parser")
@@ -60,7 +60,7 @@ def GetYahoo():
 
 
 @app.get("/articles/gizmodo")
-def GetGizmodo():
+def get_gizmodo():
     url = "https://www.gizmodo.jp/"
     res = requests.get(url)
     soup = BeautifulSoup(res.text, "html.parser")
@@ -85,5 +85,5 @@ def GetGizmodo():
 
 
 @app.post("/articles/keywords")
-def SearchKeywords():
+def search_keywords():
     return {"title": "title"}
