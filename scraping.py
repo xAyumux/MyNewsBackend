@@ -4,8 +4,8 @@ import re
 
 
 def yahooNews():
-    url = "https://www.yahoo.co.jp/"
-    res = requests.get(url)
+    load_url = "https://www.yahoo.co.jp/"
+    res = requests.get(load_url)
     soup = BeautifulSoup(res.text, "html.parser")
 
     elems = soup.find_all(href=re.compile("news.yahoo.co.jp/pickup"))
@@ -84,8 +84,8 @@ def yahooRanking():
 
 
 def gizmodo():
-    url = "https://www.gizmodo.jp/"
-    res = requests.get(url)
+    load_url = "https://www.gizmodo.jp/"
+    res = requests.get(load_url)
     soup = BeautifulSoup(res.text, "html.parser")
 
     count = 1
@@ -96,6 +96,29 @@ def gizmodo():
     for elem in elems:
         title = elem.contents[0].text
         url = elem.attrs['href']
+
+        articleDict = {"title": title, "url": url}
+        articlesDict[count] = articleDict
+
+        count += 1
+
+    return articlesDict
+
+
+def itmedia():
+    load_url = "https://www.itmedia.co.jp/"
+    res = requests.get(load_url)
+    soup = BeautifulSoup(res.text, "html.parser")
+
+    count = 1
+
+    articlesDict = {}
+
+    elems = soup.find_all(class_="colBoxTitle")
+    for elem in elems:
+        title = elem.contents[0].text
+        elem1 = elem.find("a")
+        url = elem1.attrs['href']
 
         articleDict = {"title": title, "url": url}
         articlesDict[count] = articleDict

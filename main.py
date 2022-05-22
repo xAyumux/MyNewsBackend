@@ -49,6 +49,12 @@ def get_gizmodo():
     return articlesDict
 
 
+@app.get("/articles/itmedia")
+def get_itmedia():
+    articlesDict = scraping.itmedia()
+    return articlesDict
+
+
 @app.post("/articles/keywords")
 def search_keywords(keywords: Keywords):
     # yahoo
