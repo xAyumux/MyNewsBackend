@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 import re
 
 
-def yahooNews():
-    url = "https://www.yahoo.co.jp/"
-    res = requests.get(url)
+def yahoo_news():
+    load_url = "https://www.yahoo.co.jp/"
+    res = requests.get(load_url)
     soup = BeautifulSoup(res.text, "html.parser")
 
     elems = soup.find_all(href=re.compile("news.yahoo.co.jp/pickup"))
@@ -14,7 +14,7 @@ def yahooNews():
 
     count = 1
 
-    articlesDict = {}
+    articles_dict = {}
 
     # 一覧のリンクを順に処理
     for pickup_link in pickup_links:
@@ -46,23 +46,23 @@ def yahooNews():
             detail_text, "text") else '', end='\n\n\n\n')
         snippet = detail_text.text
 
-        articleDict = {"title": title, "url": url,
-                       "img_url": img_url, "snippet": snippet}
-        articlesDict[count] = articleDict
+        article_dict = {"title": title, "url": url,
+                        "img_url": img_url, "snippet": snippet}
+        articles_dict[count] = article_dict
 
         count += 1
 
-    return articlesDict
+    return articles_dict
 
 
-def yahooRanking():
+def yahoo_ranking():
     load_url = "https://news.yahoo.co.jp/ranking/access/news"
     html = requests.get(load_url)
     soup = BeautifulSoup(html.content, "html.parser")
 
     count = 1
 
-    articlesDict = {}
+    articles_dict = {}
 
     topic = soup.find(class_="newsFeed_list")
     for element in topic.find_all("a"):
@@ -75,31 +75,54 @@ def yahooRanking():
 
         url = element.get("href")
 
-        articleDict = {"rank": rank, "title": title, "url": url}
-        articlesDict[count] = articleDict
+        article_dict = {"rank": rank, "title": title, "url": url}
+        articles_dict[count] = article_dict
 
         count += 1
 
-    return articlesDict
+    return articles_dict
 
 
 def gizmodo():
-    url = "https://www.gizmodo.jp/"
-    res = requests.get(url)
+    load_url = "https://www.gizmodo.jp/"
+    res = requests.get(load_url)
     soup = BeautifulSoup(res.text, "html.parser")
 
     count = 1
 
-    articlesDict = {}
+    articles_dict = {}
 
     elems = soup.find_all(href=re.compile("https://www.gizmodo.jp/2022/05"))
     for elem in elems:
         title = elem.contents[0].text
         url = elem.attrs['href']
 
-        articleDict = {"title": title, "url": url}
-        articlesDict[count] = articleDict
+        article_dict = {"title": title, "url": url}
+        articles_dict[count] = article_dict
 
         count += 1
 
-    return articlesDict
+    return articles_dict
+
+
+def itmedia():
+    load_url = "https://www.itmedia.co.jp/"
+    res = requests.get(load_url)
+    soup = BeautifulSoup(res.text, "html.parser")
+
+    count = 1
+
+    articles_dict = {}
+
+    elems = soup.find_all(class_="colBoxTitle")
+    for elem in elems:
+        title = elem.contents[0].text
+        elem1 = elem.find("a")
+        url = elem1.attrs['href']
+
+        article_dict = {"title": title, "url": url}
+        articles_dict[count] = article_dict
+
+        count += 1
+
+    return articles_dict

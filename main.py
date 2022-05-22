@@ -32,21 +32,27 @@ def hello():
 
 
 @app.get("/articles/yahoonews")
-def get_yahooNews():
-    articlesDict = scraping.yahooNews()
-    return articlesDict
+def get_yahoo_news():
+    articles_dict = scraping.yahoo_news()
+    return articles_dict
 
 
 @app.get("/articles/yahoonewsranking")
-def get_yahooRanking():
-    articlesDict = scraping.yahooRanking()
-    return articlesDict
+def get_yahoo_ranking():
+    articles_dict = scraping.yahoo_ranking()
+    return articles_dict
 
 
 @app.get("/articles/gizmodo")
 def get_gizmodo():
-    articlesDict = scraping.gizmodo()
-    return articlesDict
+    articles_dict = scraping.gizmodo()
+    return articles_dict
+
+
+@app.get("/articles/itmedia")
+def get_itmedia():
+    articles_dict = scraping.itmedia()
+    return articles_dict
 
 
 @app.post("/articles/keywords")
@@ -57,9 +63,9 @@ def search_keywords(keywords: Keywords):
     soup = BeautifulSoup(html.content, "html.parser")
 
     count = 1
-    articleNumber = 1
+    article_number = 1
 
-    articlesDict = {}
+    articles_dict = {}
 
     topic = soup.find(class_="newsFeed_list")
     for element in topic.find_all("a"):
@@ -74,9 +80,9 @@ def search_keywords(keywords: Keywords):
 
         for keyword in keywords.keywords:
             if keyword in title:
-                articleDict = {"rank": rank, "title": title, "url": url}
-                articlesDict[articleNumber] = articleDict
-                articleNumber += 1
+                article_dict = {"rank": rank, "title": title, "url": url}
+                articles_dict[article_number] = article_dict
+                article_number += 1
 
         count += 1
 
@@ -92,10 +98,10 @@ def search_keywords(keywords: Keywords):
 
         for keyword in keywords.keywords:
             if keyword in title:
-                articleDict = {"title": title, "url": url}
-                articlesDict[articleNumber] = articleDict
-                articleNumber += 1
+                article_dict = {"title": title, "url": url}
+                articles_dict[article_number] = article_dict
+                article_number += 1
 
         count += 1
 
-    return articlesDict
+    return articles_dict
